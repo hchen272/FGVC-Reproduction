@@ -1,6 +1,5 @@
 # CUB Fine-Grained Classification Reproduction
 
-<<<<<<< HEAD
 A compact PyTorch reproduction base for five FGVC methods:
 ResNet50, ViT-B/16, WS-DAN, IELT, and P2P-Net. Each recipe has a three-seed training
 entrypoint. The recorded P2P result currently contains one completed seed.
@@ -29,12 +28,6 @@ entrypoint. The recorded P2P result currently contains one completed seed.
 Source attribution and adaptation notes are in
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-=======
-A compact PyTorch reproduction base for five bird classification methods:
-ResNet50, ViT-B/16, WS-DAN, IELT, and P2P-Net. Each recipe has a three-seed training
-entrypoint. The recorded P2P result currently contains one completed seed.
-
->>>>>>> d2ac2341f50a268b51ec30690936885a1b58331b
 ## Results
 
 | Model | Train epochs | Seeds | Top-1 acc | Top-3 acc | Top-5 acc | Inference time |
@@ -127,7 +120,6 @@ output directory when rerunning a completed experiment. Checkpoints produced by
 the original development scripts use different source checksums; this package is
 intended for fresh retraining, not resuming those older checkpoints.
 
-<<<<<<< HEAD
 ## TO Investigate
 
 | Model name | Train epoch | Top-1 acc | Top-3 acc | Top-5 acc | Inference time |
@@ -140,27 +132,3 @@ intended for fresh retraining, not resuming those older checkpoints.
 | [Relational Proxies-RN50 (Paper)](https://arxiv.org/html/2210.02149v1) | 200‡ | 92.00±0.01% | — | — | 130 ms/sample§ (Aircraft) |
 | [TRD-RN50 (Paper)](https://papers.nips.cc/paper_files/paper/2023/file/beba7cfdac084a0f53f378d42cbe2824-Paper-Conference.pdf) | 1000‡ | 92.10±0.04% | — | — | 110 ms/sample§（Aircraft） |
 | [INTS-Net-RN50 (Paper)](https://www.mdpi.com/2079-9292/12/7/1709) | 140 | 92.16±0.32% | — | — | 178 s/test set|
-=======
-## Layout
-
-```text
-.
-├── README.md
-├── requirements.txt
-├── .gitignore
-├── THIRD_PARTY_NOTICES.md
-├── configs/                  # One recipe per method, seeds 42/43/44
-├── scripts/
-│   ├── reproduce.py          # Local three-seed launcher
-│   ├── train_elusive_cub.py   # ResNet50 and ViT training
-│   ├── wsdan/                # WS-DAN trainer and numerical core
-│   ├── ielt/                 # IELT trainer and model adapter
-│   └── p2p/                  # P2P trainer and runtime adapter
-├── third_party/              # Required upstream model code
-└── results/
-    └── cub.json              # Recorded aggregate and per-seed metrics
-```
-
-Source attribution and adaptation notes are in
-[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
->>>>>>> d2ac2341f50a268b51ec30690936885a1b58331b
