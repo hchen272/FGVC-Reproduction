@@ -1,8 +1,32 @@
 # CUB Fine-Grained Classification Reproduction
 
-A compact PyTorch reproduction base for five bird classification methods:
+A compact PyTorch reproduction base for five FGVC methods:
 ResNet50, ViT-B/16, WS-DAN, IELT, and P2P-Net. Each recipe has a three-seed training
 entrypoint. The recorded P2P result currently contains one completed seed.
+
+
+## Layout
+
+```text
+.
+├── README.md
+├── requirements.txt
+├── .gitignore
+├── THIRD_PARTY_NOTICES.md
+├── configs/                  # One recipe per method, seeds 42/43/44
+├── scripts/
+│   ├── reproduce.py          # Local three-seed launcher
+│   ├── train_elusive_cub.py   # ResNet50 and ViT training
+│   ├── wsdan/                # WS-DAN trainer and numerical core
+│   ├── ielt/                 # IELT trainer and model adapter
+│   └── p2p/                  # P2P trainer and runtime adapter
+├── third_party/              # Required upstream model code
+└── results/
+    └── cub.json              # Recorded aggregate and per-seed metrics
+```
+
+Source attribution and adaptation notes are in
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Results
 
@@ -96,25 +120,15 @@ output directory when rerunning a completed experiment. Checkpoints produced by
 the original development scripts use different source checksums; this package is
 intended for fresh retraining, not resuming those older checkpoints.
 
-## Layout
+## TO Investigate
 
-```text
-.
-├── README.md
-├── requirements.txt
-├── .gitignore
-├── THIRD_PARTY_NOTICES.md
-├── configs/                  # One recipe per method, seeds 42/43/44
-├── scripts/
-│   ├── reproduce.py          # Local three-seed launcher
-│   ├── train_elusive_cub.py   # ResNet50 and ViT training
-│   ├── wsdan/                # WS-DAN trainer and numerical core
-│   ├── ielt/                 # IELT trainer and model adapter
-│   └── p2p/                  # P2P trainer and runtime adapter
-├── third_party/              # Required upstream model code
-└── results/
-    └── cub.json              # Recorded aggregate and per-seed metrics
-```
-
-Source attribution and adaptation notes are in
-[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+| Model name | Train epoch | Top-1 acc | Top-3 acc | Top-5 acc | Inference time |
+|---|---|---|---|---|---|
+| [P2P-Net-RN50 (Paper)](https://arxiv.org/html/2203.15987) | 300 | 90.2% | — | — | 41 ms†（not sure） |
+| [P2P-Net + LSDA (Paper)）](https://arxiv.org/html/2309.00399v1) | 300（As the paper's repository setting） | 91.0% | — | — | — |
+| [I2-HOFI-RN50 (Paper)](https://d-nb.info/1352894165/34) | 150 | 90.12% | — | — | — |
+| [PMG-RN50 (Paper)](https://www.ecva.net/papers/eccv_2020/papers_ECCV/papers/123650154.pdf) | maximum 200 | 89.6% | — | — | 43 ms†） |
+| [ECC + RN50 (Paper)）](https://arxiv.org/html/2407.04243v1) | 50 | 87.3% | — | — | — |
+| [Relational Proxies-RN50 (Paper)](https://arxiv.org/html/2210.02149v1) | 200‡ | 92.00±0.01% | — | — | 130 ms/sample§ (Aircraft) |
+| [TRD-RN50 (Paper)](https://papers.nips.cc/paper_files/paper/2023/file/beba7cfdac084a0f53f378d42cbe2824-Paper-Conference.pdf) | 1000‡ | 92.10±0.04% | — | — | 110 ms/sample§（Aircraft） |
+| [INTS-Net-RN50 (Paper)](https://www.mdpi.com/2079-9292/12/7/1709) | 140 | 92.16±0.32% | — | — | 178 s/test set|
