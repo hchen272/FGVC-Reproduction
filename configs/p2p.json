@@ -1,0 +1,54 @@
+{
+  "model": "p2p",
+  "entrypoint": "scripts/p2p/train_p2p_cub.py",
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "epochs": 50,
+  "batch_size": 16,
+  "eval_batch_size": 8,
+  "num_workers": 8,
+  "data_root": "data/CUB_200_2011",
+  "weights": "weights/resnet50-19c8e357.pth",
+  "training_recipe": {
+    "image_size": 448,
+    "sample_counts": {
+      "official_train": 5994,
+      "train_samples_updated_per_epoch": 5984,
+      "official_test": 5794
+    },
+    "precision": "FP32 (TF32 disabled)",
+    "train_transform": "author CUB: Resize550x550, RandomCrop448 padding8, horizontal flip, normalize .5/.5",
+    "test_transform": "author CUB: Resize550x550, CenterCrop448, normalize .5/.5; no bbox",
+    "optimizer": {
+      "name": "SGD",
+      "head_lr": 0.002,
+      "backbone_lr": 0.0002,
+      "momentum": 0.9,
+      "weight_decay": 0.0005
+    },
+    "part_image_size": 224,
+    "topn": 4,
+    "loss": "author smooth_CE peak [.7,.8,.9,1], image+part+ranking+.1 regularization/stage",
+    "prediction_rule": "sum original-image y1+y2+y3+y4 logits",
+    "main_selection_policy": "fixed_last_epoch50",
+    "recipe_variant": "50epoch_short_run",
+    "retained_author_behaviors": [
+      "graph_assign cumulative-permutation behavior",
+      "author cosine epoch%50 resets LR at final epoch",
+      "BN and Python PR graph-center updates",
+      "tail partial train batch skipped"
+    ],
+    "single_gpu_differences": [
+      "original code uses four-card DataParallel with global batch16 (perGPU BN4), singleGPU BN16",
+      "singleGPU PR updates remove shared-object multithread race",
+      "workers8 rather than16",
+      "torch.no_grad for evaluation"
+    ],
+    "selection_policy": "fixed_last_epoch",
+    "pretraining": "ImageNet-1K supervised ResNet50 (legacy torchvision weights)"
+  },
+  "weights_sha256": "19c8e3572231adff6824a2da93fd67b5986919a2e65f8b6007eab4edee220097"
+}

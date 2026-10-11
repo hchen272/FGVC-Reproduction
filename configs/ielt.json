@@ -1,0 +1,99 @@
+{
+  "model": "ielt",
+  "entrypoint": "scripts/ielt/train_ielt_cub.py",
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "epochs": 50,
+  "batch_size": 16,
+  "eval_batch_size": 32,
+  "num_workers": 8,
+  "data_root": "data/CUB_200_2011",
+  "weights": "weights/vit_b16_augreg_in1k.npz",
+  "training_recipe": {
+    "recipe": "Elusive Images IELT, matched ordinary ViT data/weights/training recipe",
+    "input_mode": "full",
+    "image_size": 448,
+    "sample_counts": {
+      "train": 5994,
+      "test": 5794
+    },
+    "training_population": "all official train; no separate val split",
+    "test_usage": "official test monitored each epoch; fixed last epoch only; never best-selection/early-stop",
+    "early_stopping": false,
+    "gradient_accumulation": 1,
+    "gradient_clipping": null,
+    "precision": "16-mixed",
+    "normalization_on_gpu": true,
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ],
+    "train_transform": "RandomResizedCrop448(scale=.08..1,ratio=.75..1/.75,bilinear,antialias),ColorJitter(.1,.1,.1),HorizontalFlip(.5)",
+    "test_transform": "Resize([512,512],bilinear,antialias),CenterCrop448",
+    "drop_last_train": true,
+    "train_samples_per_epoch": 5984,
+    "batches_per_epoch": {
+      "train": 374,
+      "test": 182
+    },
+    "optimizer": "SGD",
+    "momentum": 0.9,
+    "nesterov": false,
+    "max_learning_rates": [
+      0.01,
+      0.01,
+      0.001,
+      0.001
+    ],
+    "weight_decay": 1e-05,
+    "scheduler": "OneCycleLR",
+    "pct_start": 0.0001,
+    "cycle_momentum": false,
+    "anneal_strategy": "cos",
+    "div_factor": 25.0,
+    "final_div_factor": 10000.0,
+    "total_optimizer_steps": 18700,
+    "onecycle_on_fp16_overflow": "advance per batch, matching Lightning interval=step; skips logged",
+    "parameters": 93493448,
+    "trainable_parameters": 93493448,
+    "ielt": {
+      "votes_per_head": 24,
+      "total_selections": 126,
+      "warmup_epochs": 10,
+      "alpha": 0.4,
+      "loss": ".6CE(part)+.4CE(complement)",
+      "prediction": "part_logits including assist_logits; no two-head averaging",
+      "reinit_final_blocks": true,
+      "proj_drop_rate": 0.1,
+      "head_drop_rate": 0.7,
+      "resume_adaptation": "Rebind per-block quota references after device move and checkpoint loading",
+      "evaluation": "Disable dynamic quota updates; use complete5794 official test"
+    },
+    "selection_policy": "fixed_last_epoch",
+    "pretrained_weights": {
+      "pretraining": "ImageNet-1K Google augreg",
+      "resolved_model": "vit_base_patch16_224.augreg_in1k + frozen Elusive IELT",
+      "img_size": 448,
+      "global_pool": "",
+      "proj_drop_rate": 0.1,
+      "head_drop_rate": 0.7,
+      "reinit_final_blocks": true,
+      "position_embedding_resize": "timm NPZ bilinear interpolation, antialias=False, 14x14 to28x28",
+      "skipped_pretrained_classifier": [
+        "head.weight",
+        "head.bias"
+      ],
+      "path": "weights/vit_b16_augreg_in1k.npz"
+    }
+  },
+  "weights_sha256": "69c9a2822a47838f57e522350b10ccc0d89d67fdcee07603e4ae3259b3350336"
+}

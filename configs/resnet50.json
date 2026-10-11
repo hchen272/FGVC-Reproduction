@@ -1,0 +1,81 @@
+{
+  "model": "resnet50",
+  "entrypoint": "scripts/train_elusive_cub.py",
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "epochs": 50,
+  "batch_size": 16,
+  "eval_batch_size": 32,
+  "num_workers": 8,
+  "data_root": "data/CUB_200_2011",
+  "weights": "weights/resnet50-11ad3fa6.pth",
+  "training_recipe": {
+    "recipe": "Elusive Images ordinary ImageClassifier, author recipe calibration",
+    "input_mode": "full",
+    "image_size": 448,
+    "sample_counts": {
+      "train": 5994,
+      "test": 5794
+    },
+    "training_population": "all official train; no separate val split",
+    "test_usage": "official test monitored each epoch; fixed last epoch only; never best-selection/early-stop",
+    "early_stopping": false,
+    "gradient_accumulation": 1,
+    "gradient_clipping": null,
+    "precision": "16-mixed",
+    "normalization_on_gpu": true,
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ],
+    "train_transform": "RandomResizedCrop448(scale=.08..1,ratio=.75..1/.75,bilinear,antialias),ColorJitter(.1,.1,.1),HorizontalFlip(.5)",
+    "test_transform": "Resize([512,512],bilinear,antialias),CenterCrop448",
+    "drop_last_train": true,
+    "train_samples_per_epoch": 5984,
+    "batches_per_epoch": {
+      "train": 374,
+      "test": 182
+    },
+    "optimizer": "SGD",
+    "momentum": 0.9,
+    "nesterov": false,
+    "max_learning_rates": [
+      0.01,
+      0.01,
+      0.001,
+      0.001
+    ],
+    "weight_decay": 0.0005,
+    "scheduler": "OneCycleLR",
+    "pct_start": 0.0001,
+    "cycle_momentum": false,
+    "anneal_strategy": "cos",
+    "div_factor": 25.0,
+    "final_div_factor": 10000.0,
+    "total_optimizer_steps": 18700,
+    "onecycle_on_fp16_overflow": "advance per batch, matching Lightning interval=step; skips logged",
+    "parameters": 23917832,
+    "trainable_parameters": 23917832,
+    "selection_policy": "fixed_last_epoch",
+    "pretrained_weights": {
+      "pretraining": "ImageNet-1K torchvision IMAGENET1K_V2",
+      "resolved_model": "timm.resnet50",
+      "skipped_pretrained_classifier": [
+        "fc.weight",
+        "fc.bias"
+      ],
+      "path": "weights/resnet50-11ad3fa6.pth",
+      "url": "https://download.pytorch.org/models/resnet50-11ad3fa6.pth"
+    }
+  },
+  "weights_sha256": "11ad3fa62ca79e40addfd354a8ec4b7c75143b3038b8d2a807fbc68deab379ca"
+}
