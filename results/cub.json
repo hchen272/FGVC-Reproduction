@@ -1,0 +1,410 @@
+{
+  "schema": "cub_reproduction_results_v1",
+  "accuracy_unit": "fraction",
+  "latency_unit": "ms/image",
+  "aggregation": "Independent seeds; arithmetic mean and sample standard deviation (ddof=1); no ensemble. Single-seed standard deviation is null.",
+  "dataset": {
+    "name": "CUB-200-2011",
+    "num_classes": 200,
+    "train_samples": 5994,
+    "test_samples": 5794,
+    "split": "official train/test split",
+    "input_size": 448,
+    "selection": "fixed final epoch 50; no best-test selection or early stopping"
+  },
+  "benchmark": {
+    "gpu": "NVIDIA RTX5880-Ada-48Q",
+    "batch_size": 1,
+    "warmup_iterations": 20,
+    "measurement_iterations": 100,
+    "model_scope": "Synchronized online image-to-label forward on an already preprocessed CUDA tensor.",
+    "with_preprocessing_scope": "Warm-filesystem original-image decoding, resize/crop, normalization, CUDA transfer, and online classification.",
+    "accuracy_statistics": "Top-k membership uses descending float32 logits with stable class-index tie breaking.",
+    "precision_note": "First four models use FP16; P2P uses FP32 and a different image transform. Latencies should be read with these conditions."
+  },
+  "models": [
+    {
+      "model": "resnet50",
+      "model_name": "ResNet50",
+      "train_epochs": 50,
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "precision": "FP16",
+      "summary": {
+        "top1": {
+          "mean": 0.8496145437809228,
+          "sample_std": 0.001566063466668559
+        },
+        "top3": {
+          "mean": 0.9468415602347255,
+          "sample_std": 0.001646425960332992
+        },
+        "top5": {
+          "mean": 0.9680128868944885,
+          "sample_std": 0.0012485637104021632
+        },
+        "inference_ms": {
+          "mean": 3.9425492033236273,
+          "sample_std": 0.08585178891450417
+        },
+        "with_preprocess_ms": {
+          "mean": 8.314553733392435,
+          "sample_std": 0.604542404157924
+        }
+      },
+      "runs": [
+        {
+          "seed": 42,
+          "epochs": 50,
+          "selected_epoch": 50,
+          "samples": 5794,
+          "top1": 0.8479461511908871,
+          "top3": 0.9449430445288229,
+          "top5": 0.9672074559889541,
+          "inference_ms": 3.917256869990524,
+          "with_preprocess_ms": 8.212959180036705,
+          "batch_size": 1,
+          "input_size": 448,
+          "selection_policy": "fixed_last_epoch"
+        },
+        {
+          "seed": 43,
+          "epochs": 50,
+          "selected_epoch": 50,
+          "samples": 5794,
+          "top1": 0.8498446668967898,
+          "top3": 0.9477045219192268,
+          "top5": 0.9673800483258543,
+          "inference_ms": 4.0382059299554385,
+          "with_preprocess_ms": 7.767245309987629,
+          "batch_size": 1,
+          "input_size": 448,
+          "selection_policy": "fixed_last_epoch"
+        },
+        {
+          "seed": 44,
+          "epochs": 50,
+          "selected_epoch": 50,
+          "samples": 5794,
+          "top1": 0.8510528132550915,
+          "top3": 0.947877114256127,
+          "top5": 0.9694511563686572,
+          "inference_ms": 3.872184810024919,
+          "with_preprocess_ms": 8.963456710152968,
+          "batch_size": 1,
+          "input_size": 448,
+          "selection_policy": "fixed_last_epoch"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "model": "vit",
+      "model_name": "ViT-B/16",
+      "train_epochs": 50,
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "precision": "FP16",
+      "summary": {
+        "top1": {
+          "mean": 0.8607755149004718,
+          "sample_std": 0.0011229560059799178
+        },
+        "top3": {
+          "mean": 0.9494304452882292,
+          "sample_std": 0.0008968160895248049
+        },
+        "top5": {
+          "mean": 0.9680704176734553,
+          "sample_std": 0.0008968160895248049
+        },
+        "inference_ms": {
+          "mean": 3.5303625466137114,
+          "sample_std": 0.10952805326171466
+        },
+        "with_preprocess_ms": {
+          "mean": 8.081841459982874,
+          "sample_std": 0.43252820673151327
+        }
+      },
+      "runs": [
+        {
+          "seed": 42,
+          "epochs": 50,
+          "selected_epoch": 50,
+          "samples": 5794,
+          "top1": 0.8619261304798067,
+          "top3": 0.9483948912668277,
+          "top5": 0.9670348636520538,
+          "inference_ms": 3.441037599914125,
+          "with_preprocess_ms": 7.936240499911946,
+          "batch_size": 1,
+          "input_size": 448,
+          "selection_policy": "fixed_last_epoch"
+        },
+        {
+          "seed": 43,
+          "epochs": 50,
+          "selected_epoch": 50,
+          "samples": 5794,
+          "top1": 0.8596824301001036,
+          "top3": 0.94994822229893,
+          "top5": 0.968588194684156,
+          "inference_ms": 3.49748673990689,
+          "with_preprocess_ms": 8.568382099947485,
+          "batch_size": 1,
+          "input_size": 448,
+          "selection_policy": "fixed_last_epoch"
+        },
+        {
+          "seed": 44,
+          "epochs": 50,
+          "selected_epoch": 50,
+          "samples": 5794,
+          "top1": 0.860717984121505,
+          "top3": 0.94994822229893,
+          "top5": 0.968588194684156,
+          "inference_ms": 3.6525633000201196,
+          "with_preprocess_ms": 7.740901780089189,
+          "batch_size": 1,
+          "input_size": 448,
+          "selection_policy": "fixed_last_epoch"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "model": "wsdan",
+      "model_name": "WS-DAN (ResNet50)",
+      "train_epochs": 50,
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "precision": "FP16",
+      "summary": {
+        "top1": {
+          "mean": 0.8895409043838454,
+          "sample_std": 0.0009132728032670074
+        },
+        "top3": {
+          "mean": 0.9630077091243815,
+          "sample_std": 0.0006061243673255472
+        },
+        "top5": {
+          "mean": 0.9779657116557358,
+          "sample_std": 0.000797169857355375
+        },
+        "inference_ms": {
+          "mean": 7.686779366825552,
+          "sample_std": 0.5629222044065153
+        },
+        "with_preprocess_ms": {
+          "mean": 11.686155863195987,
+          "sample_std": 0.1697117837484573
+        }
+      },
+      "runs": [
+        {
+          "seed": 42,
+          "epochs": 50,
+          "selected_epoch": 50,
+          "samples": 5794,
+          "top1": 0.8902312737314463,
+          "top3": 0.9623748705557473,
+          "top5": 0.9784259578874698,
+          "inference_ms": 7.638792339785141,
+          "with_preprocess_ms": 11.881751679939043,
+          "batch_size": 1,
+          "input_size": 448,
+          "selection_policy": "fixed_last_epoch"
+        },
+        {
+          "seed": 43,
+          "epochs": 50,
+          "selected_epoch": 50,
+          "samples": 5794,
+          "top1": 0.8885053503624439,
+          "top3": 0.963583016914049,
+          "top5": 0.9770452191922678,
+          "inference_ms": 8.27215897043061,
+          "with_preprocess_ms": 11.598788529954618,
+          "batch_size": 1,
+          "input_size": 448,
+          "selection_policy": "fixed_last_epoch"
+        },
+        {
+          "seed": 44,
+          "epochs": 50,
+          "selected_epoch": 50,
+          "samples": 5794,
+          "top1": 0.8898860890576459,
+          "top3": 0.9630652399033482,
+          "top5": 0.9784259578874698,
+          "inference_ms": 7.149386790260905,
+          "with_preprocess_ms": 11.577927379694302,
+          "batch_size": 1,
+          "input_size": 448,
+          "selection_policy": "fixed_last_epoch"
+        }
+      ],
+      "notes": [
+        "Prediction averages probabilities from the original-image and attention-crop branches; two backbone forward passes.",
+        "Attention-crop threshold is sampled from [0.4, 0.6] at evaluation, matching the adapted source recipe.",
+        "Maximum scratch/head learning rate is 0.001, versus 0.01 for plain ResNet50."
+      ]
+    },
+    {
+      "model": "ielt",
+      "model_name": "IELT (ViT-B/16)",
+      "train_epochs": 50,
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "precision": "FP16",
+      "summary": {
+        "top1": {
+          "mean": 0.8626164998274077,
+          "sample_std": 0.002542443883786021
+        },
+        "top3": {
+          "mean": 0.953802784489702,
+          "sample_std": 0.0001992924643388598
+        },
+        "top5": {
+          "mean": 0.9722126337590611,
+          "sample_std": 0.0007523125549776821
+        },
+        "inference_ms": {
+          "mean": 7.222426356668923,
+          "sample_std": 0.044444084482107696
+        },
+        "with_preprocess_ms": {
+          "mean": 11.572757793330007,
+          "sample_std": 0.447679684997572
+        }
+      },
+      "runs": [
+        {
+          "seed": 42,
+          "epochs": 50,
+          "selected_epoch": 50,
+          "samples": 5794,
+          "top1": 0.8631342768381084,
+          "top3": 0.9539178460476355,
+          "top5": 0.9713496720745599,
+          "inference_ms": 7.271908740008257,
+          "with_preprocess_ms": 11.21644050999521,
+          "batch_size": 1,
+          "input_size": 448,
+          "selection_policy": "fixed_last_epoch"
+        },
+        {
+          "seed": 43,
+          "epochs": 50,
+          "selected_epoch": 50,
+          "samples": 5794,
+          "top1": 0.8648602002071109,
+          "top3": 0.9539178460476355,
+          "top5": 0.9725578184328616,
+          "inference_ms": 7.18589970999119,
+          "with_preprocess_ms": 11.426577730003373,
+          "batch_size": 1,
+          "input_size": 448,
+          "selection_policy": "fixed_last_epoch"
+        },
+        {
+          "seed": 44,
+          "epochs": 50,
+          "selected_epoch": 50,
+          "samples": 5794,
+          "top1": 0.8598550224370038,
+          "top3": 0.953572661373835,
+          "top5": 0.9727304107697619,
+          "inference_ms": 7.209470620007323,
+          "with_preprocess_ms": 12.075255139991441,
+          "batch_size": 1,
+          "input_size": 448,
+          "selection_policy": "fixed_last_epoch"
+        }
+      ],
+      "notes": [
+        "Training batch size is 16; evaluation batch size is 32.",
+        "Prediction uses part_logits including assist_logits, rather than averaging the two loss heads."
+      ]
+    },
+    {
+      "model": "p2p",
+      "model_name": "P2P-Net (ResNet50)",
+      "train_epochs": 50,
+      "seeds": [
+        42
+      ],
+      "precision": "FP32",
+      "summary": {
+        "top1": {
+          "mean": 0.8916120124266482,
+          "sample_std": null
+        },
+        "top3": {
+          "mean": 0.959958577839144,
+          "sample_std": null
+        },
+        "top5": {
+          "mean": 0.9763548498446669,
+          "sample_std": null
+        },
+        "inference_ms": {
+          "mean": 4.964766630218946,
+          "sample_std": null
+        },
+        "with_preprocess_ms": {
+          "mean": 10.014866209749016,
+          "sample_std": null
+        }
+      },
+      "runs": [
+        {
+          "seed": 42,
+          "epochs": 50,
+          "selected_epoch": 50,
+          "samples": 5794,
+          "top1": 0.8916120124266482,
+          "top3": 0.959958577839144,
+          "top5": 0.9763548498446669,
+          "inference_ms": 4.964766630218946,
+          "with_preprocess_ms": 10.014866209749016,
+          "batch_size": 1,
+          "input_size": 448,
+          "selection_policy": "fixed_last_epoch"
+        }
+      ],
+      "notes": [
+        "Only seed 42 is completed; seeds 43 and 44 have not been measured.",
+        "The 50-epoch short run uses its author recipe rather than the other models' Elusive Images recipe.",
+        "FP32 latency is reported separately from the other models' FP16 measurements.",
+        "Global-only equivalent forward has identical summed global logits on timing samples; the native author forward also computes unused part branches."
+      ],
+      "additional_timing": {
+        "native_author_forward": {
+          "model_ms": 12.067496019953978,
+          "with_preprocessing_ms": 17.168632430038997
+        },
+        "global_only_equivalent": {
+          "model_ms": 4.964766630218946,
+          "with_preprocessing_ms": 10.014866209749016
+        },
+        "max_abs_logit_difference_on_timing_samples": 0.0
+      }
+    }
+  ]
+}
